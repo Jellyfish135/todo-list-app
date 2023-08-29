@@ -11,15 +11,15 @@ const TodoItemInputField = (props) => {
     setInput("")
   }
 
-  console.log(input)
+  //console.log(input)
   return (
     <div>
       <TextField
         id="todo-item -input"
         label="Todo Item"
         variant="outlined"
-        value={input}
         onChange={(e) => setInput(e.target.value)}
+        value={input}
       />
 
       <Button variant="outlined" onClick={onSubmit}>
@@ -32,7 +32,11 @@ const TodoItemInputField = (props) => {
 function App() {
   return (
     <div className="App">
-      <TodoItemInputField onSubmit={() => {}} />
+      <TodoItemInputField
+        onSubmit={(input) => {
+          console.log(input)
+        }}
+      />
     </div>
   )
 }
