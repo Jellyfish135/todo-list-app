@@ -30,7 +30,15 @@ const TodoItemInputField = (props) => {
 }
 
 const TodoItemList = (props) => {
-  return <div></div>
+  const todoList = props.todoItemList.map((todoItem, index) => {
+    return <li key={index}>{todoItem.todoItemContent}</li>
+  })
+
+  return (
+    <div>
+      <ul>{todoList}</ul>
+    </div>
+  )
 }
 function App() {
   return (
@@ -40,7 +48,7 @@ function App() {
           console.log(input)
         }}
       />
-      <TodoItemList />
+      <TodoItemList todoItemList={[]} />
     </div>
   )
 }
