@@ -29,6 +29,9 @@ const TodoItemInputField = (props) => {
   )
 }
 
+const TodoItemList = (props) => {
+  return <div></div>
+}
 function App() {
   return (
     <div className="App">
@@ -37,6 +40,7 @@ function App() {
           console.log(input)
         }}
       />
+      <TodoItemList />
     </div>
   )
 }
