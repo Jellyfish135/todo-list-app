@@ -6,6 +6,11 @@ import Button from "@mui/material/Button"
 const TodoItemInputField = (props) => {
   const [input, setInput] = useState("")
 
+  const onSubmit = () => {
+    props.onSubmit(input)
+    setInput("")
+  }
+
   console.log(input)
   return (
     <div>
@@ -17,7 +22,9 @@ const TodoItemInputField = (props) => {
         onChange={(e) => setInput(e.target.value)}
       />
 
-      <Button variant="outlined">Submit</Button>
+      <Button variant="outlined" onClick={onSubmit}>
+        Submit
+      </Button>
     </div>
   )
 }
@@ -25,7 +32,7 @@ const TodoItemInputField = (props) => {
 function App() {
   return (
     <div className="App">
-      <TodoItemInputField />
+      <TodoItemInputField onSubmit={() => {}} />
     </div>
   )
 }
