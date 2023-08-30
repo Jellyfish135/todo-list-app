@@ -3,6 +3,28 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCvOov-a8_xFSOWvFKC7kMBUU7W7jDY8io",
+  authDomain: "todo-list-5034f.firebaseapp.com",
+  projectId: "todo-list-5034f",
+  storageBucket: "todo-list-5034f.appspot.com",
+  messagingSenderId: "853843153492",
+  appId: "1:853843153492:web:97a64b7afa279908c393c1",
+  measurementId: "G-VZ54RH3XSH",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 let todoItemId = 0;
 
 const TodoItemInputField = (props) => {
@@ -38,6 +60,12 @@ const TodoItem = (props) => {
       <span style={style} onClick={() => props.onTodoItemClick(props.todoItem)}>
         {props.todoItem.todoItemContent}
       </span>
+      <Button
+        variant="outlined"
+        onClick={() => props.onRemoveClick(props.todoItem)}
+      >
+        Remove
+      </Button>
     </li>
   );
 };
@@ -49,6 +77,7 @@ const TodoItemList = (props) => {
         key={index}
         todoItem={todoItem}
         onTodoItemClick={props.onTodoItemClick}
+        onRemoveClick={props.onRemoveClick}
       />
     );
   });
@@ -72,6 +101,7 @@ function App() {
       },
     ]);
   };
+
   const onTodoItemClick = (clickedTodoItem) => {
     setTodoItemList(
       todoItemList.map((todoItem) => {
@@ -88,12 +118,21 @@ function App() {
     );
   };
 
+  const onRemoveClick = (removedTodoItem) => {
+    setTodoItemList(
+      todoItemList.filter((todoItem) => {
+        return todoItem.id !== removedTodoItem.id;
+      })
+    );
+  };
+
   return (
     <div className="App">
       <TodoItemInputField onSubmit={onSubmit} />
       <TodoItemList
         todoItemList={todoItemList}
         onTodoItemClick={onTodoItemClick}
+        onRemoveClick={onRemoveClick}
       />
     </div>
   );
