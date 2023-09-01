@@ -6,7 +6,14 @@ import Button from "@mui/material/Button";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  setDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,7 +32,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
 const db = getFirestore(app);
 
 const TodoItemInputField = (props) => {
@@ -97,7 +103,6 @@ function App() {
       todoItemContent: newTodoItem,
       isFinished: false,
     });
-
     setTodoItemList([
       ...todoItemList,
       {
@@ -108,7 +113,13 @@ function App() {
     ]);
   };
 
-  const onTodoItemClick = (clickedTodoItem) => {
+  const onTodoItemClick = async (clickedTodoItem) => {
+    const todoItemRef = doc(db, "todoItem", clickedTodoItem.id);
+    await setDoc(
+      todoItemRef,
+      { isFinished: !clickedTodoItem.isFinished },
+      { merge: true }
+    );
     setTodoItemList(
       todoItemList.map((todoItem) => {
         if (clickedTodoItem.id === todoItem.id) {
@@ -124,7 +135,10 @@ function App() {
     );
   };
 
-  const onRemoveClick = (removedTodoItem) => {
+  const onRemoveClick = async (removedTodoItem) => {
+    const todoItemRef = doc(db, "todoItem", removedTodoItem.id);
+    await deleteDoc(todoItemRef);
+
     setTodoItemList(
       todoItemList.filter((todoItem) => {
         return todoItem.id !== removedTodoItem.id;
